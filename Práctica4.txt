@@ -1,0 +1,2 @@
+Me quede en segundo pasó, se corroboró la versión del node.js.
+Se quedó en el comando de instalación del expo-cli, por errores de conexión del internet.
