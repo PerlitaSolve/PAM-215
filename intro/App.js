@@ -1,12 +1,11 @@
 
-import ContadorScrens from './screens/ContadorScrens';
+import MenuScreen from './screens/MenuScreen';
 
 export default function App() {
-
-  
   return (
 
-    <ContadorScrens></ContadorScrens>
+    <MenuScreen/>
+    
   );
 }
 
