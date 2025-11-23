@@ -5,8 +5,8 @@ export default function home(){
     return(
         <View style={styles.container}>
             <View style={styles.iconRow}>
-                <Ionicons name="home-outline" sixe={28} color="red"/>
-                <Text style={styles.title}>Bienvenido a la pantalla principal</Text>
+                <Ionicons name="home-outline" size={28} color="red"/>
+                <Text style={styles.title}>Perfil de usuario</Text>
             </View>
         </View>
     );
@@ -21,7 +21,7 @@ const styles=StyleSheet.create({
         padding: 20,
     },
     iconRow:{
-        flexDirection:'colum',
+        flexDirection:'column',
         alignItems:'center',
     },
     title:{

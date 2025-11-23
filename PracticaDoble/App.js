@@ -1,27 +1,29 @@
-import { NavigationContainerStatusBar } from 'react-navigation/native';
-import { CreateBottomTabNavigator } from '@react-navigator/bottom-tabs';
-import { Ionicons } from 'react-native-vector-icons/Ionicons';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { Ionicons } from '@expo/vector-icons';
 
-import home from '/screens/home';
-import profile from '/screens/profile';
-import settings from '/screens/settings';
+import Home from './screens/home';
+import Profile from './screens/profile';
+import Settings from './screens/settings';
+import Detalle  from './screens/Detalle';
 
-const Tab= CreateBottomTabNavigator();
+const Tab= createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
 
-export default function App() {
-  return (
-    <NavigatorContainer>
-      <Tab.Navigator
-      inirialRouteName="home"
-      screensOptions={({ route})=> ({
+function MyTabs(){
+  return(
+    <Tab.Navigator
+      initialRouteName="Home"
+      screenOptions={({ route})=> ({
         headerShown: false,
         tabBarIcon:({ color, size})=>{
           let iconName;
-          if (route.name==='home'){
+          if (route.name ==='Home') {
             iconName='home';
-          }else if(route.name==='profile'){
+          }else if(route.name ==='Profile') {
             iconName='person';
-          }elseif(route.name==='settings'){
+          }else if(route.name ==='Settings') {
             iconName='settings';
           }
           return <Ionicons name={iconName} size={size} color={color}/>;
@@ -35,18 +37,23 @@ export default function App() {
       })}
       >
         <Tab.Screen name="Home" component={Home}/>
-        <Tab.Screen name="Profile" component={profile}/>
-        <Tab.Screen name="Settings" component={settings}/>
+        <Tab.Screen name="Profile" component={Profile}/>
+        <Tab.Screen name="Settings" component={Settings}/>
       </Tab.Navigator>
-    </NavigatorContainer>
+  )
+}
+
+export default function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Tabs" component={MyTabs}/>
+        <Stack.Screen name="Profile" component={Profile}/>
+        <Stack.Screen name="Detalles" component={Detalle}/>
+        <Stack.Screen name="Settings" component={Settings}/>
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#fff',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-// });
+

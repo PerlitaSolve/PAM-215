@@ -6,7 +6,7 @@ export default function home(){
         <View style={styles.container}>
 
             <View style={styles.iconRow}>
-                <Ionicons name="settings-outline" sixe={28} color="blue"/>
+                <Ionicons name="settings-outline" size={28} color="blue"/>
                 <Text style={styles.title}>Configuraciones de usuario</Text>
             </View>
 
@@ -23,7 +23,7 @@ const styles=StyleSheet.create({
         padding: 20,
     },
     iconRow:{
-        flexDirection:'colum',
+        flexDirection:'column',
         alignItems:'center',
     },
     title:{
