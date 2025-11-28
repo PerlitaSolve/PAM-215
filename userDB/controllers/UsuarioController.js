@@ -1,5 +1,6 @@
-import { Usuario } from '../models/usuarios';
+import { Usuario } from '../models/usuario';
 import DatabaseService from '../database/DatabaseService';
+
 
 export class UsuarioController {
     constructor(){
@@ -13,7 +14,7 @@ export class UsuarioController {
 
     async obtenerUsuarios(){
         try{
-            const data = await DatabaseService.getAll();
+            const data = await DatabaseService.getA();
             return data.map(u => new Usuario(u.id, u.nombre, u.fecha_creacion));
         }catch (error){
             console.error('Error al obtener usuarios: ', error);
@@ -50,7 +51,7 @@ export class UsuarioController {
     }
 
     removeListener(callback){
-        this.listeners= this.listeners.filter(l=>l !== callback);
+        this.listeners= this.listeners.filter(l =>l !== callback);
     }
 
     notifyListeners(){

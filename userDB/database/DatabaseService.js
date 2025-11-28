@@ -17,7 +17,7 @@ class DatabaseService{
             await this.db.execAsync(`
                 CREATE TABLE IF NOT EXISTS usuarios (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                nombre TEXT NOT NULL.
+                nombre TEXT NOT NULL,
                 fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP
                 );
             `);
@@ -56,7 +56,7 @@ class DatabaseService{
             return{
                 id: result.lastInsertRowId,
                 nombre,
-                fecha_creacion: new Date().tiISOString()
+                fecha_creacion: new Date().toISOString()
             };
         }
     }

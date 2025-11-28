@@ -3,6 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet, Alert, A
 import { UsuarioController } from '../controllers/UsuarioController';
 
 const controller = new UsuarioController();
+
 export default function UsuarioView(){
     const [usuarios, setUsuarios] = useState([]);
     const [nombre, setNombre] = useState('');
@@ -21,7 +22,7 @@ export default function UsuarioView(){
         }finally{
             setLoading(false);
         }
-    },[]);
+    }, []);
 
     //INICIALIZAR Y CARGAR DATOS
     useEffect(() => {
@@ -46,7 +47,8 @@ export default function UsuarioView(){
             try{
                 setGuardando(true);
                 const usuarioCreado = await controller.crearUsuario(nombre);
-                Alert.alert(' Usuario Creado', `"${usuarioCreado.nombre}" guardando con ID: ${usuarioCreado.id}`
+                Alert.alert('Usuario Creado', 
+                `"${usuarioCreado.nombre}" guardado con ID: ${usuarioCreado.id}`
             );
             setNombre('');
             }
@@ -103,7 +105,7 @@ export default function UsuarioView(){
 
         <TouchableOpacity 
           style={[styles.button, guardando && styles.buttonDisabled]} 
-          onPress={}
+          onPress={handleAgregar}
           disabled={guardando} >
 
           <Text style={styles.buttonText}>
@@ -126,7 +128,7 @@ export default function UsuarioView(){
 
           <TouchableOpacity 
             style={styles.refreshButton}
-            onPress={} >
+            onPress={cargarUsuarios} >
             <Text style={styles.refreshText}>Recargar</Text>
           </TouchableOpacity>
 
@@ -139,9 +141,9 @@ export default function UsuarioView(){
           </View>
            ) : (
           <FlatList
-            data={}
+            data={usuarios}
             keyExtractor={(item) => item.id.toString()}
-            renderItem={}
+            renderItem={renderUsuario}
             ListEmptyComponent={
               <View style={styles.emptyContainer}>
                 <Text style={styles.emptyText}> No hay usuarios</Text>
