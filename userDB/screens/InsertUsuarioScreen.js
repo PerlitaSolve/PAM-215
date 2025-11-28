@@ -9,6 +9,9 @@ export default function UsuarioView(){
     const [nombre, setNombre] = useState('');
     const [loading, setLoading] = useState(true);
     const [guardando, setGuardando] = useState(false);
+    const [editarId, setEditarId] = useState(null);
+    const [editarNombre, setEditarNombre] = useState('');
+
 
     //SELECT-CARGAR USUARIOS DESDE LA BD
     const cargarUsuarios = useCallback(async () => {
@@ -59,6 +62,47 @@ export default function UsuarioView(){
             setGuardando(false);
         }
     };
+    //EDITAR USUARIO
+    const editarUsuario = (usuario) => {
+        setEditarId(usuario.id);
+        setEditarNombre(usuario.nombre);
+    };
+
+    const guardarEdicion = async () => {
+        try{
+            await controller.actualizarUsuario(editarId, editarNombre); 
+            Alert.alert('Usuario Actualizado', 'Los cambios se han guardado correctamente');
+            setEditarId(null);
+            setEditarNombre('');
+            await cargarUsuarios();
+        }catch (error){
+            Alert.alert('Error', error.message);
+        }
+    };
+
+    //ELIMINAR USUARIO
+    const eliminarUsuario = (id) => {
+        Alert.alert(
+            "Eliminar Usuario",
+            "¿Seguro que deseas eliminar este usuario?",
+            [
+                { text: "Cancelar", style: "cancel" },
+                {
+                    text: "Eliminar",
+                    style: "destructive",
+                    onPress: async () => {
+                        try {
+                            await controller.eliminarUsuario(id);
+                            Alert.alert("Eliminado", "Usuario borrado correctamente");
+                        } catch (error) {
+                            Alert.alert("Error", error.message);
+                        }
+                    }
+                }
+            ]
+        );
+    };
+
 
     //RENDERIZAR CADA USUARIO
     const renderUsuario = ({item, index}) => (
@@ -76,6 +120,16 @@ export default function UsuarioView(){
                         day: 'numeric'
                     })}
                 </Text>
+            </View>
+            
+            <View style={styles.actionButtons}>
+                <TouchableOpacity onPress={() => editarUsuario(item)}>
+                    <Text style={styles.editButton}>✏️</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={() => eliminarUsuario(item.id)}>
+                    <Text style={styles.deleteButton}>🗑️</Text>
+                </TouchableOpacity>
             </View>
         </View>
     );
@@ -116,7 +170,33 @@ export default function UsuarioView(){
 
       </View>
 
+      {/* Zona del EDITAR */}
+    {editarId && (
+      <View style={styles.insertSection}>
+        <Text style={styles.sectionTitle}>Editar Usuario</Text>
 
+        <TextInput
+          style={styles.input}
+          placeholder="Nuevo nombre"
+          value={editarNombre}
+          onChangeText={setEditarNombre}
+        />
+
+        <TouchableOpacity style={styles.button} onPress={guardarEdicion}>
+          <Text style={styles.buttonText}>Guardar Cambios</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.button, styles.buttonDisabled]}
+          onPress={() => {
+            setEditarId(null);
+            setEditarNombre('');
+          }}
+        >
+          <Text style={styles.buttonText}>Cancelar</Text>
+        </TouchableOpacity>
+      </View>
+    )}
 
       {/* Zona del SELECT */}
 
@@ -299,6 +379,19 @@ const styles = StyleSheet.create({
   userDate: {
     fontSize: 12,
     color: '#666',
+  },
+  actionButtons: {
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginLeft: 10,
+  },
+  editButton: {
+    fontSize: 24,
+  },
+  deleteButton: {
+    fontSize: 24,
+    color: "red",
+    marginTop: 8,
   },
   emptyContainer: {
     alignItems: 'center',
